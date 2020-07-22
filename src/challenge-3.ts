@@ -1,9 +1,5 @@
 type ValidJSONPrimitives = boolean | number | string
-type ValidJSON = ValidJSONObject | Array<ValidJSONPrimitives> | ValidJSONPrimitives
-
-interface ValidJSONObject {
-  [key: string]: string
-}
+type ValidJSON = { [key: string]: ValidJSON } | ValidJSON[] | boolean | number | string
 
 export const stringify = (input: ValidJSON): string => {
   if (typeof input === "boolean" || typeof input === "number") return input.toString();
@@ -14,7 +10,7 @@ export const stringify = (input: ValidJSON): string => {
   }
 
   const res = []
-  let openBracket: String, closeBracket: String;
+  let openBracket: string, closeBracket: string;
   if (Array.isArray(input)) {
     for(const key in input) {
       res.push(stringify(input[key]));
